@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import { ListContext } from "../contexts/ListContext";
 import Tweet from "../Tweet/Tweet";
+import axios from "axios";
 
-function TweetsList({ list }) {
-     // const list = useContext(ListContext)
+function TweetsList({serverList}) {
 
      return (
           <div>
-               {list.map((tweet) => (
+               {serverList.tweets.map((tweet) => (
                     <Tweet key={Math.random()} tweet={tweet} />
                ))}
           </div>
