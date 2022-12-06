@@ -8,8 +8,8 @@ import ProfilePage from "../ProfilePage/ProfilePage";
 
      function App() {
 
-          const [userName, setUserName] = useState("Unkown");
-
+          const [userName, setUserName] = useState( localStorage.getItem("userName"));
+       
      return (
           <div className="App d-flex flex-column">
                      <NavBar />
@@ -17,7 +17,7 @@ import ProfilePage from "../ProfilePage/ProfilePage";
                      <BrowserRouter>
             <Routes>
             <Route path="/" element={<Home userName={userName} />}  />
-            <Route path="/profile"  element={<ProfilePage setUserName={setUserName} />} />
+            <Route path="/profile"  element={<ProfilePage setUserName={setUserName} userName={userName} />} />
             </Routes>
         </BrowserRouter>
                      </div>

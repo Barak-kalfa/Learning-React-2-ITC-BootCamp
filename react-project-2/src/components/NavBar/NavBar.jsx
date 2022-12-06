@@ -8,7 +8,7 @@ import "./NavBar.css"
 function NavBar() {
      const location = window.location.pathname;
   return (
-     <div>
+     <div className='sticky-sm-top'>
 <Navbar bg="dark" variant="dark" className='w-100 rounded'>
         <Container >
           <Nav className="me-auto">

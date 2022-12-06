@@ -2,6 +2,8 @@ import TweetForm from "../TweetForm/TweetForm"
 import TweetsList from "../TweetsList/TweetsList"
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import "./Home.css"
+
 
 const Home = () => {
 const tweetsURL =
@@ -24,8 +26,8 @@ React.useEffect(() => {
 if (!serverList) return null;
 
   return (
-     <div className="d-flex flex-column justify-content-center">
-     <TweetForm tweet={tweet} setTweet={setTweet} />
+     <div className="Home d-flex flex-column justify-content-center">
+     <TweetForm setTweet={setTweet} />
      <TweetsList serverList={serverList} />
      </div>
 
