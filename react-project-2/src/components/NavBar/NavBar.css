@@ -1,4 +1,5 @@
 nav {
      color: whitesmoke;
      position: sticky;
+     border: black solid 1px;
    }

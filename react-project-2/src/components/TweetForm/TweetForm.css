@@ -5,7 +5,7 @@
      border-radius: 5px;
      margin-top: 2rem;
      padding-right: 0;
-     height: 75%;
+
 }
 
 
@@ -39,7 +39,8 @@ button:disabled {
      background-color: #F5C6CB;
      padding: 0 15px;
      border-radius: 5px;
-     height: 30px;
+  
      margin-top:  1rem;
-
+     display: flex;
+     flex-wrap: wrap;
 }

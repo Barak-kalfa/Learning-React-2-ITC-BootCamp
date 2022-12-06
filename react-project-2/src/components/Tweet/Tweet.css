@@ -1,5 +1,7 @@
-.tweet {
+.Tweet {
      background-color: #343A40;
+     padding: 1rem;
+     margin: 1rem 0;
 }
 
 .tweetHeader {

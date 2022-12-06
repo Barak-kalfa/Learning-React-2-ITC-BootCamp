@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import NavBar from "../NavBar/NavBar";
-import {BrowserRouter,  Router, Routes, Route} from "react-router-dom"
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Home from "../Home/Home";
 import ProfilePage from "../ProfilePage/ProfilePage";
 

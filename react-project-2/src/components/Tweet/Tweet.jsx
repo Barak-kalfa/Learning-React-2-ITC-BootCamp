@@ -1,10 +1,8 @@
 import "./Tweet.css"
 
-
-//REMMBER TO FIX OVERFLOW
 function Tweet({tweet}) {
   return (
-    <div className=" tweet m-3 rounded p-3 d-flex flex-column ">
+    <div className=" Tweet rounded d-flex flex-column bg-dark">
       <div className="tweetHeader d-flex justify-content-between">
         <span>{tweet.userName}</span><span>{tweet.date}</span>
         </div>

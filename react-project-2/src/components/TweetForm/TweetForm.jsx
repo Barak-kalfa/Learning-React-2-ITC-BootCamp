@@ -72,7 +72,7 @@ const TweetForm = ({ setTweet }) => {
           <div className="TweetForm">
                <form>
                     <textarea
-                         rows={6}
+                         rows={4}
                          maxLength={140}
                          type="text"
                          placeholder={
@@ -98,7 +98,7 @@ const TweetForm = ({ setTweet }) => {
                               Tweet
                          </button>
                          {isActive ? (
-                              <div id="charsWarning">
+                              <div id="charsWarning" >
                                    The tweet can't contain more then 140 chars.
                               </div>
                          ) : (
