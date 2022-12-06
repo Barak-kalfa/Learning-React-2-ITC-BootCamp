@@ -1,10 +1,13 @@
 import Tweet from "../Tweet/Tweet";
+import { TweetHomeContext } from "../contexts/TweetHomeContext";
+import { useContext } from "react";
 
-function TweetsList({serverList}) {
+function TweetsList() {
 
+          const {serverList} = useContext(TweetHomeContext);
      return (
           <div>
-               {serverList.tweets.map((tweet) => (
+               {serverList.map((tweet) => (
                     <Tweet key={Math.random()} tweet={tweet} />
                ))}
           </div>

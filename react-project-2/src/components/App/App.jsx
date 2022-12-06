@@ -16,7 +16,7 @@ import ProfilePage from "../ProfilePage/ProfilePage";
                      <div className="d-flex justify-content-center">
                      <BrowserRouter>
             <Routes>
-            <Route path="/" element={<Home userName={userName} />}  />
+            <Route path="/" element={<Home  />}  />
             <Route path="/profile"  element={<ProfilePage setUserName={setUserName} userName={userName} />} />
             </Routes>
         </BrowserRouter>

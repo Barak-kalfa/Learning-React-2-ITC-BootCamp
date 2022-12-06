@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import axios from "axios";
 import "./TweetForm.css";
+import { TweetHomeContext } from "../contexts/TweetHomeContext";
 
-const TweetForm = ({ setTweet }) => {
-     const tweetsURL =
-          "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
+const tweetsURL =
+     "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
+
+const TweetForm = () => {
+     const { serverList } = useContext(TweetHomeContext);
+     const { setServerList } = useContext(TweetHomeContext);
      const [content, setContent] = useState();
      const [errorPosting, setErrorPosting] = useState(false);
      const [buttonState, setButtonState] = useState(false);
@@ -18,7 +22,7 @@ const TweetForm = ({ setTweet }) => {
 
      //Checking for Char limit and Placeholder messege
      const checkButton = (e) => {
-          if (e >138) {
+          if (e > 138) {
                setIsActive(true);
                setButtonState(true);
           } else {
@@ -30,6 +34,9 @@ const TweetForm = ({ setTweet }) => {
      // Submiting tweet to server
      const handleSubmit = (e) => {
           e.preventDefault();
+          const localUserName = localStorage.getItem("userName")
+               ? localStorage.getItem("userName")
+               : "Unkown";
           setButtonState(true);
           axios.interceptors.response.use(undefined, (error) => {
                console.log(error.response.data.message);
@@ -38,28 +45,22 @@ const TweetForm = ({ setTweet }) => {
           const date = new Date();
           const newTweet = {
                content,
-               userName: localStorage.getItem("userName")
-                    ? localStorage.getItem("userName")
-                    : "Unkown",
+               userName: localUserName,
                date: date.toISOString(true),
           };
 
           try {
                axios.post(tweetsURL, {
                     content,
-                    userName: localStorage.getItem("userName")
-                         ? localStorage.getItem("userName")
-                         : "Unkown",
+                    userName: localUserName,
                     date: date.toISOString(),
-               }).then((response) => {
-                    setTweet(response.data);
+               }).then(() => {
                     setButtonState(false);
                });
           } catch (err) {
                console.error(e);
           }
-          //Creating Tweets fetch at Home:
-          setTweet(newTweet);
+          setServerList([newTweet, ...serverList]);
 
           //Reseting input text
           if (content) {
@@ -98,7 +99,7 @@ const TweetForm = ({ setTweet }) => {
                               Tweet
                          </button>
                          {isActive ? (
-                              <div id="charsWarning" >
+                              <div id="charsWarning">
                                    The tweet can't contain more then 140 chars.
                               </div>
                          ) : (
