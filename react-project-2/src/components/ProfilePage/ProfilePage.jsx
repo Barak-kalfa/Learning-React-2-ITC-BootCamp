@@ -2,7 +2,6 @@
 import "./ProfilePage.css"
 
 function ProfilePage(props) {
-     //  const [name, setName] = useState ("Unknown")
 
       const handleProfileName = () => {
         localStorage.setItem("userName", props.userName);
