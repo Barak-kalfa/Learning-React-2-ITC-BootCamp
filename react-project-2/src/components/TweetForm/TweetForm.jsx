@@ -1,17 +1,17 @@
 import { useState } from "react";
-
 import React from "react";
 import axios from "axios";
 import "./TweetForm.css";
 
-const tweetsURL =
-     "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
+
 const TweetForm = ({ setTweet, tweet }) => {
+
+     const tweetsURL =
+     "https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet";
      const [content, setContent] = useState();
-     const [userName, setUserName] = useState("");
      const [errorPosting, seterrorPosting] = useState(false);
      const [buttonState, setButtonState] = useState(false);
-
+     const [isActive, setIsActive] = useState(false);
      //Reseting Tweet input text
      const resetForm = () => {
           setContent("");
@@ -20,10 +20,12 @@ const TweetForm = ({ setTweet, tweet }) => {
      //Checking for Char limit and Placeholder messege
      const checkButton = (e) => {
           if (e > 138) {
+               setIsActive(true);
                setButtonState(true);
-               alert("Can't post more then 140 characters")
+
           } else {
                setButtonState(false);
+               setIsActive(false);
           }
      };
 
@@ -34,26 +36,29 @@ const TweetForm = ({ setTweet, tweet }) => {
           const date = new Date();
           const newTweet = {
                content,
-               userName: "user",
+               userName: localStorage.getItem("userName"),
                date: date.toISOString(true),
           };
-          setTweet(newTweet);
+
           try {
                axios.post(tweetsURL, {
                     content,
-                    userName: "user",
+                    userName: localStorage.getItem("userName"),
                     date: date.toISOString(),
                }).then((response) => {
                     setTweet(response.data);
                     setButtonState(false);
                });
-          }  catch(e) {
-               console.error(e)}
-          
-// Posting Error to user on input placeholder
+          } catch (e) {
+               console.error(e);
+          }
+
+          // Posting Error to user on input placeholder
           if (!tweet) {
                seterrorPosting(true);
           }
+          //Creating Tweets fetch at Home:
+          setTweet(newTweet);
 
           //Reseting input text
           if (content) {
@@ -63,13 +68,16 @@ const TweetForm = ({ setTweet, tweet }) => {
      };
 
      return (
-          <div className="tweetForm p-3">
-               <form className="border rounded d-flex flex-column">
-                    <div className="d-flex justify-content-start p-3">
-                         <textarea
+          <div className="TweetForm">
+          <div className="p-3">
+               <form className="border rounded ">
+                    <div className=" d-flex justify-content-start p-3">
+                         <textarea 
+                              rows={6}
                               maxLength={140}
                               type="text"
                               placeholder={
+                                   //Sets state to posting Error/  loading /place holder =>
                                    errorPosting
                                         ? "ERROR: There was a problem with your Post. Please try again :)"
                                         : buttonState
@@ -83,12 +91,16 @@ const TweetForm = ({ setTweet, tweet }) => {
                               }}
                          ></textarea>
                     </div>
-                    <div className="d-flex justify-content-end p-3">
-                         <button disabled={buttonState} onClick={handleSubmit}>
+                    <div className="d-flex flex-row-reverse justify-content-between p-3">
+                    <button disabled={buttonState} onClick={handleSubmit} className="align-self-end">
                               Tweet
                          </button>
-                    </div>
+                         {isActive? <div id="charsWarning" >The tweet can't contain more then 140 chars.</div> : ""}
+                     
+                       
+                    </div >
                </form>
+          </div>
           </div>
      );
 };

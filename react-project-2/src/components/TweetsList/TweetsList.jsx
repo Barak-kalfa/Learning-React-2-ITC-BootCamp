@@ -1,7 +1,4 @@
-import React, { useState, useContext } from "react";
-import { ListContext } from "../contexts/ListContext";
 import Tweet from "../Tweet/Tweet";
-import axios from "axios";
 
 function TweetsList({serverList}) {
 

@@ -1,0 +1,33 @@
+.ProfilePage{
+     width: 65%;
+}
+
+h1 {
+     color: #FFFFFF;
+     margin-bottom: 1rem;
+}
+
+label {
+     color:#FFFFFF;
+     margin-bottom: 1rem;
+}
+
+input {
+     background-color: black;
+     color: #FFFFFF;
+     border: 1px solid white;
+     border-radius: 5px;
+     height: 3rem;
+     padding-left: 10px;
+     width: 100%;
+}
+
+button {
+     margin-top: 1rem;
+     margin-right: 0.5rem;
+     align-self: flex-end;
+}
+
+button:active {
+     background-color: aquamarine;
+}
