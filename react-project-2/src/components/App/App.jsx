@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import "./App.css";
 import NavBar from "../NavBar/NavBar";
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import {BrowserRouter, Routes, Route, Navigate, } from "react-router-dom"
 import Home from "../Home/Home";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import SignUp from "../signUp/SignUp"
-import { AuthProvider } from "../contexts/AuthConext";
+import { AuthProvider, useAuth } from "../contexts/AuthConext";
 import { Login } from "../Login/Login";
-
+import { auth } from "./firebase-config";
+import {PrivateRoute} from "../PrivateRoute"
 
      function App() {
-
-          const [userName, setUserName] = useState( localStorage.getItem("userName"));
-       
+          const {currentUser} = useAuth;
+          const [userName, setUserName] = useState();
+          
      return (
           <AuthProvider>
                <div className="App d-flex flex-column">
@@ -23,15 +24,18 @@ import { Login } from "../Login/Login";
                                    <Route exact path="/" element={<Home />} />
                                    <Route
                                         path="/profile"
-                                        element={
-                                             <ProfilePage
-                                                  setUserName={setUserName}
-                                                  userName={userName}
-                                             />
-                                        }
+                                        element={<ProfilePage />}
                                    />
                                    <Route path="/login" element={<Login />} />
                                    <Route path="/signup" element={<SignUp />} />
+                                   <Route
+                                        path="/"
+                                        element={
+                                             currentUser && (
+                                                  <Navigate to="/login" />
+                                             )
+                                        }
+                                   />
                               </Routes>
                          </BrowserRouter>
                     </div>

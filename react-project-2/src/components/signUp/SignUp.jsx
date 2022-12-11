@@ -1,8 +1,9 @@
 import {Form, Button, Card, Alert} from 'react-bootstrap'
 import { useRef, useEffect } from 'react'
 import { useState } from 'react';
-import { auth } from '../App/firebase-config';
-import { Link } from 'react-router-dom';
+import { auth, db } from '../App/firebase-config';
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
 import {
      createUserWithEmailAndPassword,
      onAuthStateChanged,
@@ -12,14 +13,18 @@ import {
 
 export default function SignUp() {
 
+
+     const usersCollectionRef = collection(db, "users");
      const emailRef = useRef();
+     const nameRef = useRef();
      const passwordRef = useRef();
      const passwordConfirmRef = useRef();
     
-
+     
      const [error, setError] = useState ('')
      const [loading, setLoading] = useState(false);
      const [currentUser, setCurrentUser] = useState();
+          const navigate = useNavigate();
 
          useEffect(() => {
               const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -28,6 +33,15 @@ export default function SignUp() {
               return unsubscribe;
          }, []);
 
+                        const createUser = async () => {
+                             await addDoc(usersCollectionRef, {
+                                  name: nameRef.current.value,
+                                  email: emailRef.current.value,
+                                  password: passwordRef.current.value,
+                                  key: auth.currentUser.uid,
+                             });
+                        };
+                 
                const registerUser = async (e) => {
                        e.preventDefault();
                       if (
@@ -44,6 +58,8 @@ export default function SignUp() {
                               emailRef.current.value,
                               passwordRef.current.value
                          );
+                         createUser()
+                      navigate("/");
                     } catch (error) {
                          console.log(error.message);
                               setError("Failed To Create An Account :(");
@@ -51,26 +67,7 @@ export default function SignUp() {
                           setLoading(false);
                };
 
-//     async function handleSubmit (e) {
-//           e.preventDefault();
-//           console.log(emailRef.current.value,);
 
-//           if (passwordRef.current.value !== passwordConfirmRef.current.value){
-//                return setError('Password Do Not Match')
-//           }
-//           try {
-//                setError('')
-//                setLoading(true);
-//                await auth.createUserWithEmailAndPassword(
-//                     emailRef.current.value,
-//                     passwordRef.current.value
-//                );
-     
-//           } catch {
-//                setError('Failed To Create An Account :(')
-//           }
-//           setLoading(false)
-//      }
 
   return (
        <>
@@ -80,6 +77,14 @@ export default function SignUp() {
                       {currentUser && currentUser.email}
                       {error && <Alert variant="danger">{error}</Alert>}
                       <Form onSubmit={registerUser}>
+                           <Form.Group id="name">
+                                <Form.Label>User Name</Form.Label>
+                                <Form.Control
+                                     type="text"
+                                     ref={nameRef}
+                                     required
+                                />
+                           </Form.Group>
                            <Form.Group id="email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
@@ -109,7 +114,6 @@ export default function SignUp() {
                                 className="w-100"
                                 type="submit"
                            >
-                                {" "}
                                 Sign Up
                            </Button>
                       </Form>

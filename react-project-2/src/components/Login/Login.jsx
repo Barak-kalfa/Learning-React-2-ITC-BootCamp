@@ -2,10 +2,11 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useRef, useEffect } from "react";
 import { useState } from "react";
 import { auth } from "../App/firebase-config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword,
 onAuthStateChanged, 
 signInWithEmailAndPassword} from "@firebase/auth";
+import { useAuth } from "../contexts/AuthConext";
 
 export  function Login() {
      const emailRef = useRef();
@@ -14,6 +15,8 @@ export  function Login() {
      const [error, setError] = useState("");
      const [loading, setLoading] = useState(false);
      const [currentUser, setCurrentUser] = useState();
+     // const {currentUser} = useAuth;
+     const navigate = useNavigate();
 
      useEffect(() => {
           const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -21,6 +24,7 @@ export  function Login() {
           });
           return unsubscribe;
      }, []);
+     
 
 
                     const loginUser = async (e) => {
@@ -33,30 +37,13 @@ export  function Login() {
                                    emailRef.current.value,
                                    passwordRef.current.value
                               );
+                              navigate('/')
                          } catch (error) {
                               console.log(error.message);
-                              setError("Failed To Create An Account :(");
+                              setError("Failed To Log In :(");
                          }
                          setLoading(false);
                     };
-
-
-     // async function handleSubmit(e) {
-     //      e.preventDefault();
-
-
-     //      try {
-     //           setError("");
-     //           setLoading(true);
-     //           await auth.signInWithEmailAndPassword(
-     //                emailRef.current.value,
-     //                passwordRef.current.value
-     //           );
-     //      } catch {
-     //           setError("Failed To Log In :(");
-     //      }
-     //      setLoading(false);
-     // }
 
      return (
           <>

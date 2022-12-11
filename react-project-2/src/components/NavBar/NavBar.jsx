@@ -9,6 +9,7 @@ import { signOut } from "@firebase/auth";
 
 function NavBar() {
      const location = window.location.pathname;
+     
        const logOut = async () => {
             await signOut(auth);
        };
