@@ -24,7 +24,7 @@ export default function SignUp() {
      const [error, setError] = useState ('')
      const [loading, setLoading] = useState(false);
      const [currentUser, setCurrentUser] = useState();
-          const navigate = useNavigate();
+     const navigate = useNavigate();
 
          useEffect(() => {
               const unsubscribe = auth.onAuthStateChanged((user) => {

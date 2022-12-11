@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import React from "react";
-import axios from "axios";
 import "./TweetForm.css";
 import { addDoc, collection, getDoc } from "firebase/firestore";
 import { auth, db } from "../App/firebase-config";
-import { TweetHomeContext } from "../contexts/TweetHomeContext";
 import { useAuth } from "../contexts/AuthConext";
+
+
 
 const TweetForm = () => {
      const [content, setContent] = useState();
@@ -13,14 +13,8 @@ const TweetForm = () => {
      const [buttonState, setButtonState] = useState(false);
      const [isActive, setIsActive] = useState(false);
      const tweetsCollectionRef = collection(db, "tweets");
-     const [currentUser, setCurrentUser] = useState();
-
-         useEffect(() => {
-              const unsubscribe = auth.onAuthStateChanged((user) => {
-                   setCurrentUser(user);
-              });
-              return unsubscribe;
-         }, []);
+     const {currentUser} = useAuth();
+     
 
      //Reseting Tweet input text
      const resetForm = () => {
@@ -42,7 +36,6 @@ const TweetForm = () => {
                const date = new Date();
                await addDoc(tweetsCollectionRef, {
                     content: content,
-                    userName: currentUser.email,
                     date: date.toISOString(),
                     key: auth.currentUser.uid,
                });
@@ -52,7 +45,7 @@ const TweetForm = () => {
      const handleSubmit = (e) => {
           e.preventDefault();
           createTweet();
-
+       
           //Reseting input text
           if (content) {
                resetForm();
