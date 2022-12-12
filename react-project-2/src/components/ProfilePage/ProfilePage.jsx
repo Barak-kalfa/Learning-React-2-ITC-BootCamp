@@ -1,14 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthConext";
 import { db } from "../App/firebase-config";
 import {  doc, setDoc } from "firebase/firestore";
+import {storage} from "../App/firebase-config"
+import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
+import {v4} from "uuid"
 
 import "./ProfilePage.css";
 
+
 function ProfilePage() {
+
+          const {currentUser} = useAuth();
           const {userId } = useAuth();
           const {userName} = useAuth();
           const [updateName, setUpdateName] = useState();
+          const[imageUpload, setImageUpload] = useState();
+          const [imageDownloadUrl, setImageDownloadUrl] = useState();
+          const userImageFolderRef = ref(storage, `/${userId}`);
+
+
+          const uploadImage = () => {
+               if (imageUpload == null) return;
+               const imageRef = ref(storage, `${currentUser.uid}/${imageUpload.name + v4()}`);
+               uploadBytes(imageRef, imageUpload).then(()=> {
+                    alert("Image Uploaded")
+               })
+          }
+
+
 
           function handleProfileName () {
                const docRef = doc(
@@ -39,12 +59,18 @@ function ProfilePage() {
                               setUpdateName(e.target.value);
                          }}
                     />
+                    <button onClick={handleProfileName}>Save</button>
+                    <div>
+                         <input
+                              type="file"
+                              onChange={(e) => {
+                                   setImageUpload(e.target.files[0]);
+                              }}
+                         />
+                         <button onClick={uploadImage}>Upload</button>
+                    </div>
+                    {<img src={imageDownloadUrl} />}
                </div>
-               <button
-                    onClick={handleProfileName}
-               >
-                    Save
-               </button>
           </div>
      );
 }
