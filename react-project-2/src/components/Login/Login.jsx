@@ -63,7 +63,6 @@ export  function Login() {
                <Card className=" Login mt-5" bg="dark">
                     <Card.Body>
                          <h2 className="text-center mb-4">Login</h2>
-                         {currentUser && currentUser.email}
                          {error && <Alert variant="danger">{error}</Alert>}
                          <Form onSubmit={loginUser}>
                               <Form.Group id="email">

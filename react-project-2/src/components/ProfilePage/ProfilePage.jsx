@@ -14,9 +14,11 @@ function ProfilePage() {
      const { userName } = useAuth();
      const [updateName, setUpdateName] = useState();
      const [imageUpload, setImageUpload] = useState();
-     const [imageDownloadUrl, setImageDownloadUrl] = useState();
+     const {imageDownloadUrl} = useAuth();
+     const {setImageDownloadUrl} = useAuth()
      const userImageFolderRef = ref(storage, `/${userId}`);
-
+     const { getName } = useAuth();
+     
      const uploadImage = () => {
           if (imageUpload == null) return;
           const imageRef = ref(
@@ -37,6 +39,7 @@ function ProfilePage() {
                     });
                });
           });
+          getName()
      }, []);
 
      function handleProfileName() {
@@ -50,13 +53,16 @@ function ProfilePage() {
      return (
           <div className="d-flex flex-column ProfilePage">
                <div className=" w-100 d-flex flex-column align-items-start pt-5 ">
-                    <div className="w-100 d-flex flex-row justinfy-content-between gap-5 mb-4">
-                         <h1>Profile</h1>
+                    <div className="w-100 d-flex flex-row gap-5 mb-4">
+                         <div>
+                              <h1>Profile:</h1>
+                              {userName && <h2 id="name">{userName}</h2>}
+                         </div>
                          {imageDownloadUrl && <img src={imageDownloadUrl} />}
                     </div>
 
                     <label id="profile" htmlFor="userName">
-                         User Name: {userName && userName}
+                         User Name:
                     </label>
                     <input
                          type="text"

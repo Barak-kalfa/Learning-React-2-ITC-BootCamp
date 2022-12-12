@@ -41,11 +41,11 @@ const TweetForm = () => {
                     date: date.toISOString(),
                     key: auth.currentUser.uid,
                })
-               const tweet = {
-                    content: content,
-                    date: date.toISOString(),
-                    key: auth.currentUser.uid,
-               };
+               // const tweet = {
+               //      content: content,
+               //      date: date.toISOString(),
+               //      key: auth.currentUser.uid,
+               // };
                // setTweetsList([tweet, ...tweets])
           };
 

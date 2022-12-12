@@ -75,10 +75,9 @@ export default function SignUp() {
             <Card className=" SignUp mt-5" bg="dark">
                  <Card.Body>
                       <h2 className="text-center mb-4">Sign Up</h2>
-                      {currentUser && currentUser.email}
                       {error && <Alert variant="danger">{error}</Alert>}
                       <Form onSubmit={registerUser}>
-                           <Form.Group id="name">
+                           <Form.Group id="Username">
                                 <Form.Label>User Name</Form.Label>
                                 <Form.Control
                                      className="textInput"

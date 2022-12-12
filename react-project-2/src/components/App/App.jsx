@@ -5,14 +5,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../Home/Home";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import SignUp from "../signUp/SignUp";
-import { AuthProvider, useAuth } from "../contexts/AuthConext";
+import { AuthProvider } from "../contexts/AuthConext";
 import { Login } from "../Login/Login";
-import { auth } from "./firebase-config";
 import { PrivateRoute } from "../PrivateRoute";
 
 function App() {
-
-    
 
      return (
           <div className="App d-flex flex-column">
