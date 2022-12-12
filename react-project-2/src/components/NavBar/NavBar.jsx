@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import React from "react";
 import "./NavBar.css"
 import { auth } from "../App/firebase-config";
+import { Link, Navigate } from 'react-router-dom';
 import { signOut } from "@firebase/auth";
 
 
@@ -13,21 +14,33 @@ function NavBar() {
        const logOut = async () => {
             await signOut(auth);
        };
+       const LinkStyle = "text-decoration-none text-light m-2"
   return (
-     <div className='sticky-sm-top'>
-<Navbar bg="dark" variant="dark" className='w-100 rounded'>
-        <Container >
-          <Nav className="me-auto">
-            <Nav.Link href="/" className={location === "/" ? 'fw-bold link-light' : ""}>Home</Nav.Link>
-            <Nav.Link href="/profile" className={location === "/profile" ? 'fw-bold link-light' : ""}>Profile</Nav.Link>
-            <Nav.Link href="/login" className={location === "/login" ? 'fw-bold link-light' : ""}>Login</Nav.Link>
-            <Nav.Link href="/signup" className={location === "/singup" ? 'fw-bold link-light' : ""}>Sign Up</Nav.Link>
-            <Nav.Link onClick={logOut}>Sign Out</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-  </div>
-  )
+       <div className="sticky-sm-top">
+            <Navbar bg="dark" variant="dark" className="w-100 rounded ">
+                 <Container className="">
+                      <Nav className="nav me-auto  ">
+                           <Link to="/" className={LinkStyle}>
+                                Home
+                           </Link>
+                           <Link to="/profile" className={LinkStyle}>
+                                Profile
+                           </Link>
+                           <Link to="/login" className={LinkStyle}>
+                                Login
+                           </Link>
+                           <Link to="/signup" className={LinkStyle}>
+                                Sign Up
+                           </Link>
+                           <Link className={LinkStyle} onClick={logOut}>
+                                Sign Out
+                           </Link>
+                           
+                      </Nav>
+                 </Container>
+            </Navbar>
+       </div>
+  );
 }
 
 export default NavBar

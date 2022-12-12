@@ -3,28 +3,15 @@ import Tweet from "../Tweet/Tweet";
 import { useContext, useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../App/firebase-config";
+import { useAuth } from "../contexts/AuthConext";
 
 
 function TweetsList() {
-          const [tweets, setTweets] = useState([]);
-          const tweetsCollectionRef = collection(db, "tweets");
-
-          useEffect(() => {
-               const getTweets = async () => {
-                    const data = await getDocs(tweetsCollectionRef);
-                    setTweets(
-                         data.docs.map((doc) => ({
-                              ...doc.data(),
-                              id: doc.id,
-                         })).reverse()
-                    );
-               };
-               getTweets();
-          }, []);
+          const {tweetsList} = useAuth();
 
      return (
           <div>
-               {tweets.map((tweet) => (
+               {tweetsList.map((tweet) => (
                     <Tweet key={Math.random()} tweet={tweet} />
                ))}
           </div>

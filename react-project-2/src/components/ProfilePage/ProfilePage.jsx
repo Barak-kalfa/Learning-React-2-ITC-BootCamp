@@ -1,51 +1,60 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthConext";
 import { db } from "../App/firebase-config";
-import {  doc, setDoc } from "firebase/firestore";
-import {storage} from "../App/firebase-config"
-import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
-import {v4} from "uuid"
+import { doc, setDoc } from "firebase/firestore";
+import { storage } from "../App/firebase-config";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 import "./ProfilePage.css";
 
-
 function ProfilePage() {
+     const { currentUser } = useAuth();
+     const { userId } = useAuth();
+     const { userName } = useAuth();
+     const [updateName, setUpdateName] = useState();
+     const [imageUpload, setImageUpload] = useState();
+     const [imageDownloadUrl, setImageDownloadUrl] = useState();
+     const userImageFolderRef = ref(storage, `/${userId}`);
 
-          const {currentUser} = useAuth();
-          const {userId } = useAuth();
-          const {userName} = useAuth();
-          const [updateName, setUpdateName] = useState();
-          const[imageUpload, setImageUpload] = useState();
-          const [imageDownloadUrl, setImageDownloadUrl] = useState();
-          const userImageFolderRef = ref(storage, `/${userId}`);
+     const uploadImage = () => {
+          if (imageUpload == null) return;
+          const imageRef = ref(
+               storage,
+               `${currentUser.uid}/${imageUpload.name + v4()}`
+          );
+          uploadBytes(imageRef, imageUpload).then(() => {
+               alert("Image Uploaded");
+          });
+     };
 
+     const imageListRef = ref(storage, `${currentUser.uid}/`);
+     useEffect(() => {
+          listAll(imageListRef).then((response) => {
+               response.items.forEach((item) => {
+                    getDownloadURL(item).then((url) => {
+                         setImageDownloadUrl(url);
+                    });
+               });
+          });
+     }, []);
 
-          const uploadImage = () => {
-               if (imageUpload == null) return;
-               const imageRef = ref(storage, `${currentUser.uid}/${imageUpload.name + v4()}`);
-               uploadBytes(imageRef, imageUpload).then(()=> {
-                    alert("Image Uploaded")
-               })
-          }
+     function handleProfileName() {
+          const docRef = doc(db, "users", userId);
+          const name = {
+               name: updateName,
+          };
+          setDoc(docRef, name, { merge: true });
+     }
 
-
-
-          function handleProfileName () {
-               const docRef = doc(
-                    db,
-                    "users",
-                    userId
-               );
-               const name = {
-                    name: updateName
-               }
-               setDoc(docRef, name, { merge: true });
-          }
-               
      return (
           <div className="d-flex flex-column ProfilePage">
-               <div className="d-flex flex-column align-items-start pt-5 ">
-                    <h1>Profile</h1>
+               <div className=" w-100 d-flex flex-column align-items-start pt-5 ">
+                    <div className="w-100 d-flex flex-row justinfy-content-between gap-5 mb-4">
+                         <h1>Profile</h1>
+                         {imageDownloadUrl && <img src={imageDownloadUrl} />}
+                    </div>
+
                     <label id="profile" htmlFor="userName">
                          User Name: {userName && userName}
                     </label>
@@ -61,7 +70,12 @@ function ProfilePage() {
                     />
                     <button onClick={handleProfileName}>Save</button>
                     <div>
+                         <label id="profile" htmlFor="profileImg">
+                              Upload Profile Picture:
+                         </label>
                          <input
+                              className="pt-2"
+                              id="profileImg"
                               type="file"
                               onChange={(e) => {
                                    setImageUpload(e.target.files[0]);
@@ -69,7 +83,6 @@ function ProfilePage() {
                          />
                          <button onClick={uploadImage}>Upload</button>
                     </div>
-                    {<img src={imageDownloadUrl} />}
                </div>
           </div>
      );

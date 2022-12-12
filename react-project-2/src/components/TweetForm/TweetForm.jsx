@@ -13,7 +13,9 @@ const TweetForm = () => {
      const [buttonState, setButtonState] = useState(false);
      const [isActive, setIsActive] = useState(false);
      const tweetsCollectionRef = collection(db, "tweets");
-     const {currentUser} = useAuth();
+     const { setTweetsList } = useAuth();
+     const { tweets } = useAuth();
+
      
 
      //Reseting Tweet input text
@@ -38,14 +40,20 @@ const TweetForm = () => {
                     content: content,
                     date: date.toISOString(),
                     key: auth.currentUser.uid,
-               });
+               })
+               const tweet = {
+                    content: content,
+                    date: date.toISOString(),
+                    key: auth.currentUser.uid,
+               };
+               // setTweetsList([tweet, ...tweets])
           };
 
      // Submiting tweet to server
      const handleSubmit = (e) => {
           e.preventDefault();
           createTweet();
-       
+          
           //Reseting input text
           if (content) {
                resetForm();

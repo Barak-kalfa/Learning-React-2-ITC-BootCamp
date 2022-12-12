@@ -9,6 +9,7 @@ import {
      onAuthStateChanged,
 } from "@firebase/auth";
 
+import "./SignUp.css"
 
 
 export default function SignUp() {
@@ -71,7 +72,7 @@ export default function SignUp() {
 
   return (
        <>
-            <Card className="mt-5">
+            <Card className=" SignUp mt-5" bg="dark">
                  <Card.Body>
                       <h2 className="text-center mb-4">Sign Up</h2>
                       {currentUser && currentUser.email}
@@ -80,6 +81,7 @@ export default function SignUp() {
                            <Form.Group id="name">
                                 <Form.Label>User Name</Form.Label>
                                 <Form.Control
+                                     className="textInput"
                                      type="text"
                                      ref={nameRef}
                                      required
@@ -88,6 +90,7 @@ export default function SignUp() {
                            <Form.Group id="email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
+                                     className="textInput"
                                      type="email"
                                      ref={emailRef}
                                      required
@@ -96,6 +99,7 @@ export default function SignUp() {
                            <Form.Group id="passowrd">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
+                                     className="textInput"
                                      type="password"
                                      ref={passwordRef}
                                      required
@@ -104,6 +108,7 @@ export default function SignUp() {
                            <Form.Group id="password-confirm">
                                 <Form.Label>Password Confirmation</Form.Label>
                                 <Form.Control
+                                     className="textInput"
                                      type="password"
                                      ref={passwordConfirmRef}
                                      required
