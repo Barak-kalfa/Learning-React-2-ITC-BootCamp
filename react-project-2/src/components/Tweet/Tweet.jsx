@@ -7,6 +7,7 @@ function Tweet({ tweet }) {
 
     const [name, setName] = useState();
     const {users} = useAuth()
+
        useEffect(() => {
             const getName = () => {
                  users &&
@@ -17,7 +18,7 @@ function Tweet({ tweet }) {
                       });
             };
             getName();
-       }, [users]);
+       }, []);
 
      return (
           <div className=" Tweet rounded d-flex flex-column bg-dark">
@@ -26,7 +27,6 @@ function Tweet({ tweet }) {
                     <span>{tweet.date}</span>
                </div>
                <div className="tweetContent d-flex pe-5 me-5 text-break">
-
                     {tweet.content}
                </div>
           </div>

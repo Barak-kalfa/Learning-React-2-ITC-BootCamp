@@ -37,11 +37,11 @@ export function AuthProvider({ children }) {
                }))
           );
      };
-// seting user name
+
      useEffect(() => {
           getUsers();
      }, []);
-// getting tweest collection from firebase
+// getting tweets collection from firebase
      const getTweets = async () => {
           const data = await getDocs(tweetsCollectionRef);
           const list = data.docs.map((doc) => ({

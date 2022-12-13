@@ -1,8 +1,4 @@
 import Tweet from "../Tweet/Tweet";
-
-import { useContext, useState, useEffect } from "react";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../App/firebase-config";
 import { useAuth } from "../contexts/AuthConext";
 
 

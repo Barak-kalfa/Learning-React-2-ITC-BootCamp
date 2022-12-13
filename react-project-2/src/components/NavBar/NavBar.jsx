@@ -4,12 +4,12 @@ import Navbar from "react-bootstrap/Navbar";
 import React from "react";
 import "./NavBar.css";
 import { auth } from "../App/firebase-config";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signOut } from "@firebase/auth";
 import { useAuth } from "../contexts/AuthConext";
 
 function NavBar() {
-     const location = window.location.pathname;
+     
      const { imageDownloadUrl } = useAuth();
      const {userName} = useAuth()
 

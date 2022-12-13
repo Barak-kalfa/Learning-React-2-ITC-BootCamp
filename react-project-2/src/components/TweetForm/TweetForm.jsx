@@ -1,20 +1,19 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import "./TweetForm.css";
-import { addDoc, collection, getDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../App/firebase-config";
-import { useAuth } from "../contexts/AuthConext";
 
 
 
 const TweetForm = () => {
+
      const [content, setContent] = useState();
      const [errorPosting, setErrorPosting] = useState(false);
      const [buttonState, setButtonState] = useState(false);
      const [isActive, setIsActive] = useState(false);
      const tweetsCollectionRef = collection(db, "tweets");
-     const { setTweetsList } = useAuth();
-     const { tweets } = useAuth();
+
 
      
 
@@ -41,12 +40,6 @@ const TweetForm = () => {
                     date: date.toISOString(),
                     key: auth.currentUser.uid,
                })
-               // const tweet = {
-               //      content: content,
-               //      date: date.toISOString(),
-               //      key: auth.currentUser.uid,
-               // };
-               // setTweetsList([tweet, ...tweets])
           };
 
      // Submiting tweet to server

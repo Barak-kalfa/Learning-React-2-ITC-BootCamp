@@ -1,9 +1,9 @@
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { auth } from "../App/firebase-config";
 import { Link, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider} from "@firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "@firebase/auth";
 import { useAuth } from "../contexts/AuthConext"; 
 import "./Login.css"
 
@@ -14,11 +14,10 @@ export  function Login() {
      const [error, setError] = useState("");
      const [loading, setLoading] = useState(false);
      const {setCurrentUser} = useAuth();
-     const {currentUser} = useAuth()
      const GoogleProvider = new GoogleAuthProvider();
 
      const navigate = useNavigate();
-
+//google login
                const googleLogIn = () => {
                     signInWithPopup(auth, GoogleProvider)
                          .then((result) => {
@@ -40,6 +39,7 @@ export  function Login() {
                                    );
                          });
                }
+               //login user to firebase database
                     const loginUser = async (e) => {
                          e.preventDefault();
                          try {

@@ -5,10 +5,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { storage } from "../App/firebase-config";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-
 import "./ProfilePage.css";
 
 function ProfilePage() {
+
+
      const { currentUser } = useAuth();
      const { userId } = useAuth();
      const { userName } = useAuth();
@@ -19,6 +20,7 @@ function ProfilePage() {
      const userImageFolderRef = ref(storage, `/${userId}`);
      const { getName } = useAuth();
      
+     //oplading user profile image
      const uploadImage = () => {
           if (imageUpload == null) return;
           const imageRef = ref(
@@ -29,7 +31,6 @@ function ProfilePage() {
                alert("Image Uploaded");
           });
      };
-
      const imageListRef = ref(storage, `${currentUser.uid}/`);
      useEffect(() => {
           listAll(imageListRef).then((response) => {
@@ -41,7 +42,8 @@ function ProfilePage() {
           });
           getName()
      }, []);
-
+     
+//changing user name in firebase users collection
      function handleProfileName() {
           const docRef = doc(db, "users", userId);
           const name = {

@@ -1,15 +1,12 @@
 import {Form, Button, Card, Alert} from 'react-bootstrap'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { useState } from 'react';
 import { auth, db } from '../App/firebase-config';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
-import {
-     createUserWithEmailAndPassword,
-     onAuthStateChanged,
-} from "@firebase/auth";
-
+import {createUserWithEmailAndPassword} from "@firebase/auth";
 import "./SignUp.css"
+import { useAuth } from '../contexts/AuthConext';
 
 
 export default function SignUp() {
@@ -20,20 +17,13 @@ export default function SignUp() {
      const nameRef = useRef();
      const passwordRef = useRef();
      const passwordConfirmRef = useRef();
-    
-     
      const [error, setError] = useState ('')
      const [loading, setLoading] = useState(false);
-     const [currentUser, setCurrentUser] = useState();
      const navigate = useNavigate();
+     const {currentUser} = useAuth()
 
-         useEffect(() => {
-              const unsubscribe = auth.onAuthStateChanged((user) => {
-                   setCurrentUser(user);
-              });
-              return unsubscribe;
-         }, []);
 
+//creating user in firebase
                         const createUser = async () => {
                              await addDoc(usersCollectionRef, {
                                   name: nameRef.current.value,
@@ -42,7 +32,7 @@ export default function SignUp() {
                                   key: auth.currentUser.uid,
                              });
                         };
-                 
+
                const registerUser = async (e) => {
                        e.preventDefault();
                       if (
@@ -117,9 +107,7 @@ export default function SignUp() {
                                 disabled={loading}
                                 className="w-100"
                                 type="submit"
-                           >
-                                Sign Up
-                           </Button>
+                           >Sign Up </Button>
                       </Form>
                  </Card.Body>
                  <div className="w-100 text-center mt-2 mb-2">
