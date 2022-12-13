@@ -50,7 +50,7 @@ export  function Login() {
                                    emailRef.current.value,
                                    passwordRef.current.value
                               );
-                              navigate('/')
+                              navigate('/profile')
                          } catch (error) {
                               console.log(error.message);
                               setError("Failed To Log In :(");
