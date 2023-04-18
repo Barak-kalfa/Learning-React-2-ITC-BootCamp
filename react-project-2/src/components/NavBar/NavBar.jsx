@@ -47,7 +47,7 @@ function NavBar() {
                               src={imageDownloadUrl}
                          />
                     )}
-               </Navbar>
+               </Navbar> 
           </div>
      );
 }

@@ -1,6 +1,5 @@
 import {Form, Button, Card, Alert} from 'react-bootstrap'
-import { useRef } from 'react'
-import { useState } from 'react';
+import { useRef, useState } from "react";
 import { auth, db } from '../App/firebase-config';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
